@@ -9,8 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <!-- custom css -->
-    <link rel="stylesheet" href="../assets/global.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="../global/css/global.css">
+    <link rel="stylesheet" href="../global/css/login.css">
     <!-- font awesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
@@ -23,25 +23,41 @@
 
 <body class="login_body">
     <?php
-    require_once("api/conn.php");
+    require_once("../global/api/conn.php");
+    session_start();
     if (isset($_REQUEST["submit"])) {
-        $name = $_REQUEST["username"];
+        $email = $_REQUEST["email"];
         $password = $_REQUEST["password"];
 
-        $sanitized_name = mysqli_real_escape_string($conn, $name);
+        $sanitized_email = mysqli_real_escape_string($conn, $email);
         $sanitized_password = mysqli_real_escape_string($conn, $password);
 
-        $query = "SELECT * FROM admin WHERE name='$sanitized_name' AND password='$sanitized_password'";
+        $query = "SELECT * FROM admin WHERE email='$sanitized_email'";
         $result = mysqli_query($conn, $query) or die(mysqli_error($conn));
-        $num = mysqli_fetch_array($result);
+        $num = mysqli_num_rows($result);
+
+        $error = "";
         if ($num > 0) {
-            header("location: index.html");
+            $admin = mysqli_fetch_assoc($result);
+            if (password_verify($sanitized_password, $admin["password"])) {
+                $_SESSION["admin"] = $admin["id"];
+                $_SESSION["super"] = $admin["super"];
+
+                header("location: pages/dashboard.php");
+            } else {
+                $error = "E-mail and Password don't match.";
+            }
         } else {
+            $error = "User doesn't exist.";
+        }
+        if ($error != "") {
             ?>
             <!-- alert -->
             <div class="mb-4 alert alert-danger d-flex align-items-center gap-2 alert-dismissible fade show" role="alert">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <div>Username and Password do not match</div>
+                <div>
+                    <?php echo $error ?>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php
@@ -51,12 +67,12 @@
 
     <form action="" method="post" class="login_form">
         <div class="login_title">
-            <h2>STEAM</h2>
+            <h2>STEAMX</h2>
         </div>
 
         <div class="form_group">
-            <label for="username">Username</label>
-            <input class="form_input" type="text" name="username" id="username" autocomplete="username" autofocus>
+            <label for="email">E-mail</label>
+            <input class="form_input" type="text" name="email" id="email" autocomplete="username" autofocus>
             <span class="underline-animation"></span>
         </div>
         <div class="form_group">
@@ -67,9 +83,6 @@
         <div class="form_group">
             <button class="login_btn btn" name="submit" type="submit">SIGN IN <i
                     class="fa-solid fa-arrow-right"></i></button>
-        </div>
-        <div class="form_group account">
-            <span>Don't have an account? <a href="register.html">Sign up</a></span>
         </div>
     </form>
     <!-- bootstrap js -->
