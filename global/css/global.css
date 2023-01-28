@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Poppins&family=Raleway:wght@600;800&display=swap');
+
+:root {
+    --primary: #273043;
+    --secondary: #9197AE;
+    --black: #141416;
+    --black-1: #111;
+    --black-2: #222;
+    --black-3: #333;
+    --black-4: #444;
+    --black-a: #aaa;
+    --grey: #49494b;
+    --white: #EFF6EE;
+    --blue: #1F487E;
+    --teal: #00BD9D;
+    --orange: #e75627;
+    --red: #F02D3A;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: var(--black-1);
+    padding: 20px;
+    margin-block: 10px;
+    margin-left: 5px;
+    height: max-content;
+    width: calc(100% - 10px);
+    border-radius: 10px;
+}
+
+.card>h1,
+.table {
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
