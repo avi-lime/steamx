@@ -1,6 +1,6 @@
 # Game Store (E-commerce) Project
 
-**DISCONTINUED**
+**DISCONTINUED** <br>
 ***DROPPED AFTER FINISHING ADMIN SIDE DESIGN***
 (now working on memento's website)
 
