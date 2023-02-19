@@ -1,4 +1,8 @@
-# Game Store (E-commerce)
+# Game Store (E-commerce) Project
+
+**DISCONTINUED**
+***DROPPED AFTER FINISHING ADMIN SIDE DESIGN***
+(now working on memento's website)
 
 ## Features
 - Game Store [₹, Ratings, Reviews, Tags]
